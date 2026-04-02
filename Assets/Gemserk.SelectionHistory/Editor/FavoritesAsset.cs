@@ -13,7 +13,7 @@ namespace Gemserk
         [Serializable]
         public class Favorite
         {
-            public Object reference;
+            public LazyLoadReference<Object> reference;
         }
     
         public event Action<FavoritesAsset> OnFavoritesUpdated;
@@ -30,12 +30,12 @@ namespace Gemserk
 
         public bool IsFavorite(Object reference)
         {
-            return favoritesList.Count(f => f.reference == reference) > 0;
+            return favoritesList.Count(f => f.reference.isSet && f.reference.asset == reference) > 0;
         }
 
         public void RemoveFavorite(Object reference)
         {
-            favoritesList.RemoveAll(f => f.reference == reference);
+            favoritesList.RemoveAll(f => f.reference.isSet && f.reference.asset == reference);
             OnFavoritesUpdated?.Invoke(this);
             Save(true);
         }

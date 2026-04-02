@@ -34,7 +34,7 @@ namespace Gemserk
             // public State state = State.Referenced;
 
             [SerializeField]
-            public Object reference;
+            public LazyLoadReference<Object> reference;
 
             [NonSerialized]
             private Object hierarchyObjectReference;
@@ -44,7 +44,7 @@ namespace Gemserk
                 get
                 {
                     if (isAsset)
-                        return reference;
+                        return reference.asset;
 
 #if UNITY_EDITOR
                     if (hierarchyObjectReference == null && UnityEditor.GlobalObjectId.TryParse(globalObjectId, out var id))
@@ -91,7 +91,7 @@ namespace Gemserk
 
             public Entry(Object reference)
             {
-                this.reference = reference;
+                this.reference = new LazyLoadReference<Object> { asset = reference };
                 unreferencedObjectName = reference.name;
 
                 if (string.IsNullOrEmpty(reference.name))
@@ -107,7 +107,7 @@ namespace Gemserk
                     // scene objects to be misclassified as assets.
                     if (go.scene.isLoaded)
                     {
-                        this.reference = null;
+                        this.reference = default;
                         hierarchyObjectReference = reference;
 
                         // scene.name can be empty for untitled scenes,

@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Gemserk
 {
@@ -23,7 +24,7 @@ namespace Gemserk
 
         public static bool IsSceneAsset(this SelectionHistory.Entry entry)
         {
-            return entry.isReferenced && entry.isAsset && entry.reference is SceneAsset;
+            return entry.isReferenced && entry.isAsset && entry.reference.asset is SceneAsset;
         }
 
         public static bool IsPrefabAsset(this SelectionHistory.Entry entry)
@@ -269,7 +270,7 @@ namespace Gemserk
                     {
                         FavoritesAsset.instance.AddFavorite(new FavoritesAsset.Favorite
                         {
-                            reference = entry.Reference
+                            reference = new LazyLoadReference<Object> { asset = entry.Reference }
                         });
                     }
                             
@@ -387,7 +388,7 @@ namespace Gemserk
                     
                     // var isPrefabAsset = entry.isReferenced && entry.isAsset && PrefabUtility.IsPartOfPrefabAsset(entry.Reference) && entry.Reference is GameObject;
                     var isAsset = entry.isReferenced && entry.isAsset;
-                    var isSceneAsset = entry.isReferenced && entry.isAsset && entry.reference is SceneAsset;
+                    var isSceneAsset = entry.isReferenced && entry.isAsset && entry.reference.asset is SceneAsset;
                     
                     visualElement.style.display = DisplayStyle.Flex;
                     

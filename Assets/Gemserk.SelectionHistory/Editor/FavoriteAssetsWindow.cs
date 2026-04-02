@@ -4,6 +4,7 @@ using UnityEditor.ShortcutManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Gemserk
 {
@@ -48,7 +49,7 @@ namespace Gemserk
                 {
                     favorites.AddFavorite(new FavoritesAsset.Favorite
                     {
-                        reference = reference
+                        reference = new LazyLoadReference<Object> { asset = reference }
                     });   
                 }
             }
@@ -164,7 +165,7 @@ namespace Gemserk
 
             for (var i = 0; i < _favorites.favoritesList.Count; i++)
             {
-                var assetReference = _favorites.favoritesList[i].reference;
+                var assetReference = _favorites.favoritesList[i].reference.asset;
 
                 if (!assetReference)
                     continue;

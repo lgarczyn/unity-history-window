@@ -213,7 +213,7 @@ namespace Gemserk
 			var entry1 = new SelectionHistory.Entry(gameObject1)
 			{
 				globalObjectId = "TEST_G1",
-				reference = null,
+				reference = default,
 				sceneName = "Scene1",
 				scenePath = "Assets/Scene1"
 			};
@@ -221,7 +221,7 @@ namespace Gemserk
 			var entry2 = new SelectionHistory.Entry(gameObject1)
 			{
 				globalObjectId = "TEST_G2",
-				reference = null,
+				reference = default,
 				sceneName = "Scene1",
 				scenePath = "Assets/Scene1"
 			};
